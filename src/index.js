@@ -55,6 +55,16 @@ class App extends Component {
     });
     return newItemsList;
   }
+
+  mapSubItemsItemS(subItems, items) {
+    const newItems = items.map(item => {
+      item.subItems = item.subItems.map(subItem => {
+        return subItems.find(newItem => newItem.id === subItem.id);
+      });
+      return item;
+    });
+    return newItems;
+  }
   onDragEnd(result) {
     // dropped outside the list
     console.log(result);
@@ -173,7 +183,10 @@ class App extends Component {
         // });
         //New SubItems addded subsub
         console.log(newItems);
-        this.mapFlatSubItemsItems(newItems);
+        // this.mapFlatSubItemsItems(newItems);
+        this.setState({
+          items: this.mapSubItemsItemS(newItems, this.state.items)
+        });
       } else {
         let newSourceSubItems = [...sourceSubItems];
         const [draggedItem] = newSourceSubItems.splice(sourceIndex, 1);
@@ -193,7 +206,10 @@ class App extends Component {
         // });
         //New SubItems addded subsub
         console.log(newItems);
-        this.mapFlatSubItemsItems(newItems);
+        // this.mapFlatSubItemsItems(newItems);
+        this.setState({
+          items: this.mapSubItemsItemS(newItems, this.state.items)
+        });
       }
     }
   }
